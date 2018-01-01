@@ -1,0 +1,74 @@
+<toaster-container></toaster-container>
+
+<div class="btn-group">
+
+Trending Globally :
+    <span ng-repeat="trend in globalTrends">
+
+        <button type="button" class="trend btn btn-sm btn-default" ng-click="setSearchText(trend.query)"> {{trend.name}}</button>
+        </span>
+
+    <br>
+
+Trending Locally (India) :
+    <span ng-repeat="trend in localTrends">
+
+        <button type="button" class="trend btn btn-sm btn-default" ng-click="setSearchText(trend.query)"> {{trend.name}}</button>
+        </span>
+</div>
+<br><br>
+<div class="form-group form-input-element">
+
+    <div class="col-sm-8">
+
+        <input class="form-control input-lg"  placeholder="Search Query"
+               ng-model="searchText">
+
+
+    </div>
+    <div class="col-sm-4">
+        <button class="btn btn-lg btn-primary" ng-click="search(searchText)">Start !</button>
+    </div>
+</div>
+<br>
+
+<div>
+<hr>
+<div class="row">
+    <div class="col-sm-6">
+        <b>Sentiment : {{tweetsData[searchText].overallAnalysis.sentiment}}</b>
+        <br>
+        Number of tweets : {{tweetsData[searchText].overallAnalysis.numberOfTweets}}
+        <br>
+        Number of sentimental tweets : {{tweetsData[searchText].overallAnalysis.numberOfSentimentalTweets}}
+        <br>
+        Total score : {{tweetsData[searchText].overallAnalysis.totalScore}}
+        <br>
+        Average score : {{tweetsData[searchText].overallAnalysis.averageScore}}
+</div>
+    <div class="col-sm-6">
+
+       <h4> <i ng-class="getSentimentClass()"></i></h4>
+    </div>
+
+</div>
+
+<hr>
+Top  Words :
+<span ng-repeat="word in tweetsData[searchText].allWordsAnalysis | orderBy : word.appearances | limitTo : 10">
+    <h3 style="display: inline"> <span class="verticalMargined label label-info"> {{word.word}} </span> &nbsp;</h3>
+</span>
+<br>
+<hr>
+Top Positive Words :
+<span ng-repeat="positiveWord in tweetsData[searchText].sentimentalWordsAnalysis.positive | limitTo : 8">
+   <h3 style="display: inline"> <span class="verticalMargined label label-success"> {{positiveWord.word}} </span> &nbsp; </h3>
+</span>
+<hr>
+Top negative Words :
+<span ng-repeat="negativeWord in tweetsData[searchText].sentimentalWordsAnalysis.negative | limitTo : 8">
+    <h3 style="display: inline; margin-bottom:15px"> <span class="verticalMargined label label-danger"> {{negativeWord.word}} </span> &nbsp;</h3>
+</span>
+
+</div>
+<hr>
